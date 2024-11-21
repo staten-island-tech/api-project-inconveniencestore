@@ -2,12 +2,12 @@ import "./style.css";
 
 //ask for ip
 
-const DOMSelectors = { holder: document.querySelector(".holder") };
+const DOMSelectors = { holder: document.getElementById(".holder") };
 createItems();
 
 function createItems() {
   DOMSelectors.holder.innerHTML = "";
-  items.forEach((value) =>
+  items.forEach(() =>
     DOMSelectors.holder.insertAdjacentHTML(
       "beforeend",
       `<div class="flex items-center justify-center h-screen bg-yellow-300">

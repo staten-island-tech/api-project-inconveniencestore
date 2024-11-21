@@ -3,15 +3,24 @@ import "./style.css";
 //ask for ip
 
 const DOMSelectors = { holder: document.querySelector(".holder") };
+createItems();
 
-function createItems(items) {
+function createItems() {
   DOMSelectors.holder.innerHTML = "";
   items.forEach((value) =>
-    DOMSelectors.holder.insertAdjacentHTML("beforeend", ``)
+    DOMSelectors.holder.insertAdjacentHTML(
+      "beforeend",
+      `<div class="flex items-center justify-center h-screen bg-yellow-300">
+  <div class="card bg-red-200 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+      <h1 class="text-3xl">item one</h1>
+      <h2 class="text-xl">item two</h2>
+  </div>
+</div>`
+    )
   );
 }
 
-async function getData(lat, lng) {
+/*async function getData(lat, lng) {
   try {
     const response = await fetch(
       //"https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + lng
@@ -33,3 +42,4 @@ async function getData(lat, lng) {
   }
 }
 getData();
+*/

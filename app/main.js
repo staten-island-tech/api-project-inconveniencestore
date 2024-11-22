@@ -1,23 +1,53 @@
 import "./style.css";
 
-//ask for ip
+//ask for country, then zip code?
+//ask for zip code
 
-const DOMSelectors = { holder: document.getElementById(".holder") };
-createItems();
+//when search bar clicked, then summon get data
 
-function createItems() {
+const DOMSelectors = {
+  holder: document.querySelector(".holder"),
+  submit: document.querySelector(".submit"),
+  placeholder: document.querySelector(".title"),
+};
+
+DOMSelectors.submit.addEventListener("click", createItems);
+
+async function getData(zipcode) {
+  try {
+    console.log(`http://api.zippopotam.us/us/${zipcode}`);
+    const response = await fetch(`http://api.zippopotam.us/us/${zipcode}`);
+    if (response.status != 200) {
+      throw new Error(response);
+    } else {
+      const data = await response.json();
+      console.log(data.country);
+      return data.country;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("ERROR");
+  }
+}
+
+async function createItems() {
   DOMSelectors.holder.innerHTML = "";
-  items.forEach(() =>
-    DOMSelectors.holder.insertAdjacentHTML(
-      "beforeend",
-      `<div class="flex items-center justify-center h-screen bg-yellow-300">
-  <div class="card bg-red-200 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
-      <h1 class="text-3xl">item one</h1>
-      <h2 class="text-xl">item two</h2>
-  </div>
-</div>`
-    )
-  );
+
+  try {
+    const items = await getData("10306");
+    items.forEach((item) =>
+      DOMSelectors.holder.insertAdjacentHTML(
+        "beforeend",
+        `<div class="card bg-red-600 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+          <h1 class="text-3xl">${item.title}</h1>
+          <h2 class="text-xl">${item.subtitle}</h2>
+        </div>`
+      )
+    );
+  } catch (error) {
+    console.error("createitems error", error);
+    DOMSelectors.holder.textContent = "ERROR YOU SUCK AT CODING HAHAHHAHA";
+  }
 }
 
 /*async function getData(lat, lng) {

@@ -11,13 +11,14 @@ html, body, *{
     font-family: "Comic Sans MS", "Comic Sans", sans-serif;
 }
 
-body {
-    background-color: rgb(246, 255, 0);
-}
 .holder {
     display: flex;
     align-items: center; 
     justify-content: center;
+}
+
+.card {
+    color:black;
 }
 
 h1 {

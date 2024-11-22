@@ -7,10 +7,23 @@
     <title>weather</title>
   </head>
   <body>
-    <div id="holder">
-      <div class="card bg-red-200 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+    <div class="control-panel flex flex-col items-center justify-center text-center">
+      <form action="">
+        <div class="input">
+          <label for="zipcode">zipcode: </label>
+          <input type="text" id="name">
+        </div>
+        </form>
+        <button type="submit" class="submit">Submit</button>
+    </div>
+    
+
+    <div class="holder">
+      <div class="card bg-red-200 flex flex-col items-center justify-center text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
           <h2 class="text-4xl">item two</h2>
       </div>
+
+      <h3 class="title"></h3>
   </div>
     
     <script type="module" src="/main.js"></script>

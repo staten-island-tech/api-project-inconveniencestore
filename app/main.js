@@ -35,7 +35,14 @@ async function createItems() {
 
   try {
     const items = await getData("10306");
-    items.forEach((item) =>
+    DOMSelectors.holder.insertAdjacentHTML(
+      "beforeend",
+      `<div class="card bg-red-600 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+        <h1 class="text-3xl">${items}</h1>
+        <h2 class="text-xl">${items}</h2>
+      </div>`
+    );
+    /* items.forEach((item) =>
       DOMSelectors.holder.insertAdjacentHTML(
         "beforeend",
         `<div class="card bg-red-600 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
@@ -43,7 +50,7 @@ async function createItems() {
           <h2 class="text-xl">${item.subtitle}</h2>
         </div>`
       )
-    );
+    ); */
   } catch (error) {
     console.error("createitems error", error);
     DOMSelectors.holder.textContent = "ERROR YOU SUCK AT CODING HAHAHHAHA";

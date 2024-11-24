@@ -11,7 +11,7 @@
       <form action="">
         <div class="input">
           <label for="zipcode">zipcode: </label>
-          <input type="text" id="name">
+          <input type="text" id="zipcode">
         </div>
         </form>
         <button type="submit" class="submit">Submit</button>
@@ -19,11 +19,12 @@
     
 
     <div class="holder">
-      <div class="card bg-red-200 flex flex-col items-center justify-center text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
-          <h2 class="text-4xl">item two</h2>
+      <div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+        <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
+          <h3 class="text-xl">State: ${place.state}</h3>
+          <h3 class="text-xl">Coordinates: (${place.longitude}, ${place.latitude})</h3>
+          <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
       </div>
-
-      <h3 class="title"></h3>
   </div>
     
     <script type="module" src="/main.js"></script>

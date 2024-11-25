@@ -8,6 +8,7 @@ import "./style.css";
 
 const DOMSelectors = {
   holder: document.querySelector(".holder"),
+  wowLookAtThese: document.querySelector(".wow-look-at-these"),
   submit: document.querySelector(".submit"),
   placeholder: document.querySelector(".title"),
   zipcode: document.querySelector("#zipcode"),
@@ -22,7 +23,7 @@ async function checkTheseOut() {
   function createDemoZipcards(items) {
     const place = items.places[0];
 
-    DOMSelectors.holder.insertAdjacentHTML(
+    DOMSelectors.wowLookAtThese.insertAdjacentHTML(
       "beforeend",
       `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
         <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
@@ -43,7 +44,6 @@ async function checkTheseOut() {
       infoAcquired = true;
     } catch (error) {
       console.error("createitems error", error);
-      DOMSelectors.holder.textContent = "error, trying again";
     }
   }
 }
@@ -67,7 +67,7 @@ async function getData(zipcode) {
 }
 
 async function createItems() {
-  DOMSelectors.holder.innerHTML = "";
+  //DOMSelectors.holder.innerHTML = "";
 
   const zipcode = DOMSelectors.zipcode.value;
   try {
@@ -84,30 +84,7 @@ async function createItems() {
     );
   } catch (error) {
     console.error("createitems error", error);
-    DOMSelectors.holder.textContent = "ERROR YOU SUCK AT CODING HAHAHHAHA";
+    DOMSelectors.holder.textContent =
+      "you don't live there. how do i know? because it isnt even a real place loser";
   }
 }
-
-/*async function getData(lat, lng) {
-  try {
-    const response = await fetch(
-      //"https://api.sunrise-sunset.org/json?lat=" + lat + "&lng=" + lng
-      "http://api.zippopotam.us/us/10306"
-    );
-    //https://api.sunrise-sunset.org/json?lat=${lat}&lng=-4.4203400
-    //http://api.zippopotam.us/us/10306 can get name, place, long and lat given ip address
-    //https://github.com/robertoduessmann/weather-api
-    if (response.status != 200) {
-      throw new Error(response);
-    } else {
-      const data = await response.json();
-      console.log(data);
-      document.querySelector(".title").textContent = data.results.sunset;
-    }
-  } catch (error) {
-    console.log(error);
-    console.log("ERROR");
-  }
-}
-getData();
-*/

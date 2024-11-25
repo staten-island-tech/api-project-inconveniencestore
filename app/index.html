@@ -7,25 +7,36 @@
     <title>weather</title>
   </head>
   <body>
+
+    <h1 class="flex items-center justify-center text-8xl p-10">RANDOM INFORMATION BASED ON IP ADDRESS</h1>
+    
+    <!--input-->
     <div class="control-panel flex flex-col items-center justify-center text-center">
       <form action="">
         <div class="input">
-          <label for="zipcode">zipcode: </label>
-          <input type="text" id="zipcode">
+          <label for="zipcode" >zipcode: </label>
+          <input type="text" id="zipcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         </div>
         </form>
         <button type="submit" class="submit">Submit</button>
     </div>
     
-
-    <div class="holder">
-      <div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+    
+    <div class="holder flex items-center justify-center">
+      
+      <!-- <div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
         <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
           <h3 class="text-xl">State: ${place.state}</h3>
           <h3 class="text-xl">Coordinates: (${place.longitude}, ${place.latitude})</h3>
           <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
-      </div>
+      </div>-->
   </div>
+
+  <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERSTED IN THESE IPS</h2>
+      <!-- demo zipcodes -->
+      <div class="wow-look-at-these flex items-center justify-center"> 
+
+      </div>
     
     <script type="module" src="/main.js"></script>
   </body>

@@ -86,7 +86,6 @@ async function createItems() {
     createCards("holder", place);
   } catch (error) {
     console.error("create items error", error);
-    DOMSelectors.holder.textContent =
-      "you don't live there. how do i know? because it isnt even a real place loser";
+    alert("so close! that isnt a real place <3");
   }
 }

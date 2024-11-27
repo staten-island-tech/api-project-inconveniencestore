@@ -13,8 +13,10 @@ const DOMSelectors = {
   submit: document.querySelector(".submit"),
   placeholder: document.querySelector(".title"),
   zipcode: document.querySelector("#zipcode"),
+  body: document.body, //to clear body later
 };
 
+//for submit zipcode,
 DOMSelectors.submit.addEventListener("click", createItems);
 
 //general card creation
@@ -37,14 +39,33 @@ function createCards(selection, place) {
   );
 }
 
-function attachButtonListeners() {
+function attachButtonListeners(place) {
   const buttons = document.querySelectorAll(".hooray");
   buttons.forEach((button) => {
+    //thing that happens when clicked
     button.addEventListener("click", (event) => {
       const zipcode = event.target.getAttribute("data-zipcode");
       const coordinates = event.target.getAttribute("data-coordinates");
-      console.log(
-        `Button clicked for ZIP: ${zipcode}, Coordinates: ${coordinates}`
+      // smite
+      DOMSelectors.body.innerHTML = "";
+      console.log(`zipcode selected: ${zipcode}, coordinates: ${coordinates}`);
+
+      DOMSelectors.body.insertAdjacentHTML(
+        "beforeend",
+        `<div class="holder flex items-center justify-center">
+      <div class="flex items-center justify-center h-screen w-screen">
+        <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
+          <h2 class="text-3xl">SELECTED ZIPCODE: </h2>
+          <h3>name of place: ${place["place name"]}</h3>
+          <ul>
+            <li>sunset time: </li>
+            <li>sunrise time: </li>
+            <li>state: </li>
+            <li>longitude & latitude: </li>
+          </ul>
+          <button type="submit" class="go-back bg-blue-300">go back</button>
+        </div>
+      </div>`
       );
     });
   });
@@ -52,7 +73,7 @@ function attachButtonListeners() {
 
 async function checkTheseOut() {
   for (let i = 0; i < 5; i++) {
-    let randomNumber = Math.floor(Math.random() * 123);
+    let randomNumber = Math.floor(Math.random() * 117);
     let randomPlace = validZipcodes[randomNumber];
     console.log("trying zip code:", randomPlace);
 
@@ -60,11 +81,11 @@ async function checkTheseOut() {
       const items = await getData(randomPlace);
       const place = items.places[0];
       createCards("wowLookAtThese", place);
+      attachButtonListeners(place);
     } catch (error) {
       console.error("Error creating demo card for zip:", randomPlace, error);
     }
   }
-  attachButtonListeners();
 }
 checkTheseOut();
 
@@ -84,15 +105,19 @@ async function getData(zipcode) {
   }
 }
 
+//put place in a seperate function
+
+//for user input
 async function createItems() {
-  DOMSelectors.holder.innerHTML = "";
+  //DOMSelectors.holder.innerHTML = "";
 
   const zipcode = DOMSelectors.zipcode.value;
   try {
     const items = await getData(zipcode);
     const place = items.places[0];
 
-    createCards("holder");
+    createCards("holder", place);
+    attachButtonListeners(place);
   } catch (error) {
     console.error("create items error", error);
     alert("so close! that isnt a real place <3");

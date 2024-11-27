@@ -1,4 +1,5 @@
 import "./style.css";
+import { validZipcodes } from "./list.js";
 
 //ask for country, then zip code?
 //ask for zip code
@@ -24,38 +25,46 @@ function createCards(selection, place) {
     "beforeend",
     `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
         <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
-          <h3 class="text-xl">State: ${place.state}</h3>
-          <h3 class="text-xl">Coordinates: (${place.longitude}, ${place.latitude})</h3>
-          <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
-
-          <button type="select" class="bg-blue-300" id="${place["post code"]}">submit</button>
+        <h3 class="text-xl">State: ${place.state}</h3>
+        <h3 class="text-xl">Coordinates: (${place.longitude}, ${place.latitude})</h3>
+        <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
+        <button class="hooray bg-blue-300" 
+                data-zipcode="${place["post code"]}" 
+                data-coordinates="${place.longitude},${place.latitude}">
+          Select
+        </button>
       </div>`
   );
 }
-//put in button in each card with class with the long lat?
+
+function attachButtonListeners() {
+  const buttons = document.querySelectorAll(".hooray");
+  buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const zipcode = event.target.getAttribute("data-zipcode");
+      const coordinates = event.target.getAttribute("data-coordinates");
+      console.log(
+        `Button clicked for ZIP: ${zipcode}, Coordinates: ${coordinates}`
+      );
+    });
+  });
+}
 
 async function checkTheseOut() {
-  function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  //add multiple cards
-
-  //loop until valid zip code
-  let infoAcquired = false;
-  while (infoAcquired === false) {
-    const randomPlace = getRandomInt(10000, 99950);
+  for (let i = 0; i < 5; i++) {
+    let randomNumber = Math.floor(Math.random() * 123);
+    let randomPlace = validZipcodes[randomNumber];
     console.log("trying zip code:", randomPlace);
 
     try {
       const items = await getData(randomPlace);
       const place = items.places[0];
       createCards("wowLookAtThese", place);
-      infoAcquired = true;
     } catch (error) {
-      console.error("create items error: ", error);
+      console.error("Error creating demo card for zip:", randomPlace, error);
     }
   }
+  attachButtonListeners();
 }
 checkTheseOut();
 
@@ -83,7 +92,7 @@ async function createItems() {
     const items = await getData(zipcode);
     const place = items.places[0];
 
-    createCards("holder", place);
+    createCards("holder");
   } catch (error) {
     console.error("create items error", error);
     alert("so close! that isnt a real place <3");

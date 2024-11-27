@@ -18,6 +18,12 @@ const DOMSelectors = {
 
 //for submit zipcode,
 DOMSelectors.submit.addEventListener("click", createItems);
+//ADD ONE FORRESET TO DEFAULT
+
+//go back button
+function defaultSetup() {
+  DOMSelectors.body.innerHTML = "";
+}
 
 //general card creation
 //place is now the array, which before was items.
@@ -28,7 +34,6 @@ function createCards(selection, place) {
     `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
         <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
         <h3 class="text-xl">State: ${place.state}</h3>
-        <h3 class="text-xl">Coordinates: (${place.longitude}, ${place.latitude})</h3>
         <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
         <button class="hooray bg-blue-300" 
                 data-zipcode="${place["post code"]}" 
@@ -39,7 +44,9 @@ function createCards(selection, place) {
   );
 }
 
+//not only adds button listeners but also adds adjacent body html.
 function attachButtonListeners(place) {
+  console.log("place passed on from button:", place);
   const buttons = document.querySelectorAll(".hooray");
   buttons.forEach((button) => {
     //thing that happens when clicked

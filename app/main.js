@@ -20,8 +20,42 @@ const DOMSelectors = {
 
 //for submit zipcode,
 DOMSelectors.submit.addEventListener("click", createItems);
-//ADD ONE FORRESET TO DEFAULT
 
+//put place in a seperate function
+//for user input
+async function createItems() {
+  //DOMSelectors.holder.innerHTML = "";
+
+  const zipcode = DOMSelectors.zipcode.value;
+  try {
+    const items = await getData(zipcode);
+    //const place = items.places[0];
+
+    createCards("holder", items); //probably return a value for one of these
+    attachButtonListeners(items);
+  } catch (error) {
+    console.error("create items error", error);
+    alert("so close! that isnt a real place <3");
+  }
+}
+
+async function getData(zipcode) {
+  try {
+    console.log(`getting data for: http://api.zippopotam.us/us/${zipcode}`);
+    const response = await fetch(`http://api.zippopotam.us/us/${zipcode}`);
+    if (response.status != 200) {
+      throw new Error("getData error: ", response);
+    } else {
+      const data = await response.json();
+      console.log(data);
+      return data;
+    }
+  } catch (error) {
+    console.log("fetching data error: ", error);
+  }
+}
+
+//ADD ONE FORRESET TO DEFAULT
 //go back button
 function defaultSetup() {
   DOMSelectors.body.innerHTML = "";
@@ -44,7 +78,7 @@ function defaultSetup() {
     <!-- <div class="holder flex items-center justify-center">
       <div class="flex items-center justify-center h-screen w-screen">
         <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
-          <h2 class="text-3xl">SELECTED ZIPCODE: ${zipcode}</h2>
+          <h2 class="text-3xl">SELECTED ZIPCODE: </h2>
           <h3>name of place: </h3>
           <ul>
             <li>sunset time: </li>
@@ -80,16 +114,17 @@ function defaultSetup() {
 
 //general card creation
 //place is now the array, which before was items.
-function createCards(selection, place) {
+function createCards(selection, items) {
   const element = DOMSelectors[selection];
+  const place = items.places[0];
   element.insertAdjacentHTML(
     "beforeend",
     `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
         <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
         <h3 class="text-xl">State: ${place.state}</h3>
-        <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
+        <h4 class="text-lg">Zip Code: ${items["post code"]}</h4>
         <button class="hooray bg-blue-300" 
-                data-zipcode="${place["post code"]}" 
+                data-zipcode="${items["post code"]}" 
                 data-coordinates="${place.longitude},${place.latitude}">
           Select
         </button>
@@ -99,15 +134,18 @@ function createCards(selection, place) {
 
 //not only adds button listeners but also adds adjacent body html.
 //also the information is being correctly formatted.... but the insertadjacent html i think is only looking at the last thingie
-function attachButtonListeners(place) {
+function attachButtonListeners(items) {
   const buttons = document.querySelectorAll(".hooray");
+  const place = items.places[0];
   buttons.forEach((button) => {
     //thing that happens when clicked
     button.addEventListener("click", (event) => {
       const zipcode = event.target.getAttribute("data-zipcode");
       const coordinates = event.target.getAttribute("data-coordinates");
       // smite: this only takes the latest information.
-      //what i need to do is to put this into a seperate function and then cry! no jk call it seperately, return zipcode and coordinates in an array? or just coordinates? or the whole array??? probaby whole array actually
+      //what i need to do is to put this into a seperate function and then cry! no jk call it seperately, return zipcode and coordinates in an array? or just coordinates? or the whole array??? probaby whole array actuall
+      //upon further research the data thingie can only store strings which is soooo lame (joke)
+      //new plan: store zipcode, derive everythign else from there
       DOMSelectors.body.innerHTML = "";
       console.log(`zipcode selected: ${zipcode}, coordinates: ${coordinates}`);
       DOMSelectors.body.insertAdjacentHTML(
@@ -115,7 +153,7 @@ function attachButtonListeners(place) {
         `<div class="holder flex items-center justify-center">
       <div class="flex items-center justify-center h-screen w-screen">
         <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
-          <h2 class="text-3xl">SELECTED ZIPCODE: </h2>
+          <h2 class="text-3xl">SELECTED ZIPCODE: ${items["post code"]}</h2>
           <h3>name of place: ${place["place name"]}</h3>
           <ul>
             <li>sunset time: </li>
@@ -139,47 +177,12 @@ async function checkTheseOut() {
 
     try {
       const items = await getData(randomPlace);
-      const place = items.places[0];
-      createCards("wowLookAtThese", place);
-      attachButtonListeners(place);
+      //const place = items.places[0];
+      createCards("wowLookAtThese", items);
+      attachButtonListeners(items);
     } catch (error) {
       console.error("Error creating demo card for zip:", randomPlace, error);
     }
   }
 }
 checkTheseOut();
-
-async function getData(zipcode) {
-  try {
-    console.log(`getting data for: http://api.zippopotam.us/us/${zipcode}`);
-    const response = await fetch(`http://api.zippopotam.us/us/${zipcode}`);
-    if (response.status != 200) {
-      throw new Error("getData error: ", response);
-    } else {
-      const data = await response.json();
-      console.log(data);
-      return data;
-    }
-  } catch (error) {
-    console.log("fetching data error: ", error);
-  }
-}
-
-//put place in a seperate function
-
-//for user input
-async function createItems() {
-  //DOMSelectors.holder.innerHTML = "";
-
-  const zipcode = DOMSelectors.zipcode.value;
-  try {
-    const items = await getData(zipcode);
-    const place = items.places[0];
-
-    createCards("holder", place);
-    attachButtonListeners(place);
-  } catch (error) {
-    console.error("create items error", error);
-    alert("so close! that isnt a real place <3");
-  }
-}

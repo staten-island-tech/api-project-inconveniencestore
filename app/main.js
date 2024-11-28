@@ -1,9 +1,11 @@
 import "./style.css";
 import { validZipcodes } from "./list.js";
 
-//ask for country, then zip code?
-//ask for zip code
-//try these zip codes and 3 random number
+//ideas to make the button actually work
+//when button clicked, store with each card an array of zipcodes
+//number each button
+
+//how about onclick
 
 //when search bar clicked, then summon get data
 
@@ -46,7 +48,6 @@ function createCards(selection, place) {
 
 //not only adds button listeners but also adds adjacent body html.
 function attachButtonListeners(place) {
-  console.log("place passed on from button:", place);
   const buttons = document.querySelectorAll(".hooray");
   buttons.forEach((button) => {
     //thing that happens when clicked
@@ -56,7 +57,6 @@ function attachButtonListeners(place) {
       // smite
       DOMSelectors.body.innerHTML = "";
       console.log(`zipcode selected: ${zipcode}, coordinates: ${coordinates}`);
-
       DOMSelectors.body.insertAdjacentHTML(
         "beforeend",
         `<div class="holder flex items-center justify-center">

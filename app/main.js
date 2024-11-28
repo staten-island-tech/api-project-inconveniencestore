@@ -27,11 +27,13 @@ async function createItems() {
   //DOMSelectors.holder.innerHTML = "";
 
   const zipcode = DOMSelectors.zipcode.value;
+  console.log("zipcode requested:", zipcode);
   try {
     const items = await getData(zipcode);
     //const place = items.places[0];
 
     createCards("holder", items); //probably return a value for one of these
+    console.log("createcards ran");
     attachButtonListeners(items);
   } catch (error) {
     console.error("create items error", error);

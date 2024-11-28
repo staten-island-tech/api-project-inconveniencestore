@@ -25,6 +25,57 @@ DOMSelectors.submit.addEventListener("click", createItems);
 //go back button
 function defaultSetup() {
   DOMSelectors.body.innerHTML = "";
+  DOMSelectors.body.insertAdjacentHTML(
+    "beforeend",
+    ` <h1 class="flex items-center justify-center text-8xl p-10">RANDOM INFORMATION BASED ON IP ADDRESS (AMERICA ONLY)</h1>
+    
+    <!--input-->
+    <div class="control-panel flex flex-col items-center justify-center text-center">
+      <form action="">
+        <div class="input">
+          <label for="zipcode" >zipcode: </label>
+          <input type="text" id="zipcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        </form>
+        <button type="submit" class="submit bg-blue-300">Submit</button>
+    </div>
+    
+    
+    <!-- <div class="holder flex items-center justify-center">
+      <div class="flex items-center justify-center h-screen w-screen">
+        <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
+          <h2 class="text-3xl">SELECTED ZIPCODE: ${zipcode}</h2>
+          <h3>name of place: </h3>
+          <ul>
+            <li>sunset time: </li>
+            <li>sunrise time: </li>
+            <li>state: </li>
+            <li>longitude & latitude: </li>
+          </ul>
+          <button type="submit" class="go-back bg-blue-300">go back</button>
+        </div>
+      </div> -->
+
+      <!--<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
+        <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
+        <h3 class="text-xl">State: ${place.state}</h3>
+        <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
+        <button class="hooray bg-blue-300" 
+                data-zipcode="${place["post code"]}" 
+                data-coordinates="${place.longitude},${place.latitude}">
+          Select
+        </button>
+      </div>-->
+  </div>
+
+  <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERSTED IN THESE ZIPCODES</h2>
+      <!-- demo zipcodes -->
+      <div class="wow-look-at-these flex items-center justify-center"> 
+
+      </div>
+    
+    <script type="module" src="/main.js"></script>`
+  );
 }
 
 //general card creation
@@ -47,6 +98,7 @@ function createCards(selection, place) {
 }
 
 //not only adds button listeners but also adds adjacent body html.
+//also the information is being correctly formatted.... but the insertadjacent html i think is only looking at the last thingie
 function attachButtonListeners(place) {
   const buttons = document.querySelectorAll(".hooray");
   buttons.forEach((button) => {
@@ -54,7 +106,8 @@ function attachButtonListeners(place) {
     button.addEventListener("click", (event) => {
       const zipcode = event.target.getAttribute("data-zipcode");
       const coordinates = event.target.getAttribute("data-coordinates");
-      // smite
+      // smite: this only takes the latest information.
+      //what i need to do is to put this into a seperate function and then cry! no jk call it seperately, return zipcode and coordinates in an array? or just coordinates? or the whole array??? probaby whole array actually
       DOMSelectors.body.innerHTML = "";
       console.log(`zipcode selected: ${zipcode}, coordinates: ${coordinates}`);
       DOMSelectors.body.insertAdjacentHTML(

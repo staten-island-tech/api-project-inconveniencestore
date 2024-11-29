@@ -16,6 +16,7 @@ const DOMSelectors = {
   placeholder: document.querySelector(".title"),
   zipcode: document.querySelector("#zipcode"),
   body: document.body, //to clear body later
+  infoHolder: document.querySelector(".info-holder"),
 };
 
 //for submit zipcode,
@@ -56,40 +57,6 @@ async function getData(zipcode) {
   }
 }
 
-//ADD ONE FORRESET TO DEFAULT
-//go back button
-function defaultSetup() {
-  // Clear and rebuild the body HTML
-  DOMSelectors.body.innerHTML = `
-    <div class="control-panel flex flex-col flex-wrap items-center justify-center text-center">
-      <form action="">
-        <div class="input">
-          <label for="zipcode">zipcode: </label>
-          <input type="text" id="zipcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        </div>
-      </form>
-      <button type="submit" id="submit" class="submit bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Submit</button>
-    </div>
-
-    <div class="holder flex items-center justify-center"></div> 
-
-    <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERESTED IN THESE ZIPCODES</h2>
-    <div class="wow-look-at-these flex items-center justify-center"></div>
-  `;
-
-  // Rebind DOMSelectors to the new elements
-  DOMSelectors.holder = document.querySelector(".holder");
-  DOMSelectors.wowLookAtThese = document.querySelector(".wow-look-at-these");
-  DOMSelectors.zipcode = document.querySelector("#zipcode");
-
-  // Reattach event listener to the submit button
-  const newSubmitButton = document.querySelector("#submit");
-  newSubmitButton.addEventListener("click", createItems);
-
-  // Generate new random zip code cards
-  checkTheseOut();
-}
-
 //general card creation
 //place is now the array, which before was items.
 function createCards(selection, items) {
@@ -108,10 +75,10 @@ function createCards(selection, items) {
         </button>
       </div>`
   );
+  attachButtonListeners(items);
 }
 
 async function putTheSecondCardOntoThePage(zipcode) {
-  DOMSelectors.body.innerHTML = "";
   try {
     const items = await getData(zipcode);
     const place = items.places[0];
@@ -122,7 +89,8 @@ async function putTheSecondCardOntoThePage(zipcode) {
       );
       const data = await response.json();
       console.log(data);
-      DOMSelectors.body.insertAdjacentHTML(
+      DOMSelectors.infoHolder.innerHTML = "";
+      DOMSelectors.infoHolder.insertAdjacentHTML(
         "beforeend",
         `<div class="holder flex items-center justify-center">
       <div class="flex items-center justify-center h-screen w-screen">
@@ -143,7 +111,7 @@ async function putTheSecondCardOntoThePage(zipcode) {
             <li>longitude & latitude: ${place.longitude}, ${place.latitude}</li>
             <li>state: ${place.state}</li>
           </ul>
-          <button type="submit" class="go-back bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">go back</button>
+       
         </div>
       </div>`
       );
@@ -153,13 +121,6 @@ async function putTheSecondCardOntoThePage(zipcode) {
   } catch (error) {
     console.error("create items error", error);
   }
-  const buttons = document.querySelectorAll(".go-back");
-  buttons.forEach((button) => {
-    //thing that happens when clicked
-    button.addEventListener("click", () => {
-      defaultSetup();
-    });
-  });
 }
 
 //not only adds button listeners but also adds adjacent body html.
@@ -171,7 +132,9 @@ function attachButtonListeners(items) {
     //thing that happens when clicked
     button.addEventListener("click", (event) => {
       const zipcode = event.target.getAttribute("data-zipcode");
-      putTheSecondCardOntoThePage(zipcode);
+      if (zipcode === items["post code"]) {
+        putTheSecondCardOntoThePage(zipcode);
+      }
     });
   });
 }
@@ -186,7 +149,6 @@ async function checkTheseOut() {
       const items = await getData(randomPlace);
       //const place = items.places[0];
       createCards("wowLookAtThese", items);
-      attachButtonListeners(items);
     } catch (error) {
       console.error("Error creating demo card for zip:", randomPlace, error);
     }

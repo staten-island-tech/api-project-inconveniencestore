@@ -59,58 +59,35 @@ async function getData(zipcode) {
 //ADD ONE FORRESET TO DEFAULT
 //go back button
 function defaultSetup() {
-  DOMSelectors.body.innerHTML = "";
-  DOMSelectors.body.insertAdjacentHTML(
-    "beforeend",
-    ` <h1 class="flex items-center justify-center text-8xl p-10">RANDOM INFORMATION BASED ON IP ADDRESS (AMERICA ONLY)</h1>
-    
-    <!--input-->
-    <div class="control-panel flex flex-col items-center justify-center text-center">
+  // Clear and rebuild the body HTML
+  DOMSelectors.body.innerHTML = `
+    <div class="control-panel flex flex-col flex-wrap items-center justify-center text-center">
       <form action="">
         <div class="input">
-          <label for="zipcode" >zipcode: </label>
+          <label for="zipcode">zipcode: </label>
           <input type="text" id="zipcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         </div>
-        </form>
-        <button type="submit" class="submit bg-blue-300">Submit</button>
+      </form>
+      <button type="submit" id="submit" class="submit bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Submit</button>
     </div>
-    
-    
-    <!-- <div class="holder flex items-center justify-center">
-      <div class="flex items-center justify-center h-screen w-screen">
-        <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
-          <h2 class="text-3xl">SELECTED ZIPCODE: </h2>
-          <h3>name of place: </h3>
-          <ul>
-            <li>sunset time: </li>
-            <li>sunrise time: </li>
-            <li>state: </li>
-            <li>longitude & latitude: </li>
-          </ul>
-          <button type="submit" class="go-back bg-blue-300">go back</button>
-        </div>
-      </div> -->
 
-      <!--<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
-        <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
-        <h3 class="text-xl">State: ${place.state}</h3>
-        <h4 class="text-lg">Zip Code: ${place["post code"]}</h4>
-        <button class="hooray bg-blue-300" 
-                data-zipcode="${place["post code"]}" 
-                data-coordinates="${place.longitude},${place.latitude}">
-          Select
-        </button>
-      </div>-->
-  </div>
+    <div class="holder flex items-center justify-center"></div> 
 
-  <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERSTED IN THESE ZIPCODES</h2>
-      <!-- demo zipcodes -->
-      <div class="wow-look-at-these flex items-center justify-center"> 
+    <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERESTED IN THESE ZIPCODES</h2>
+    <div class="wow-look-at-these flex items-center justify-center"></div>
+  `;
 
-      </div>
-    
-    <script type="module" src="/main.js"></script>`
-  );
+  // Rebind DOMSelectors to the new elements
+  DOMSelectors.holder = document.querySelector(".holder");
+  DOMSelectors.wowLookAtThese = document.querySelector(".wow-look-at-these");
+  DOMSelectors.zipcode = document.querySelector("#zipcode");
+
+  // Reattach event listener to the submit button
+  const newSubmitButton = document.querySelector("#submit");
+  newSubmitButton.addEventListener("click", createItems);
+
+  // Generate new random zip code cards
+  checkTheseOut();
 }
 
 //general card creation
@@ -121,10 +98,10 @@ function createCards(selection, items) {
 
   element.insertAdjacentHTML(
     "beforeend",
-    `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
-        <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
-        <h3 class="text-xl">State: ${place.state}</h3>
-        <h4 class="text-lg">Zip Code: ${items["post code"]}</h4>
+    `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-100 max-w-120 h-120 max-h-150 m-8">
+        <h2>Place Name: ${place["place name"]}</h1>
+        <h3>State: ${place.state}</h3>
+        <h4 >Zip Code: ${items["post code"]}</h4>
         <button class="hooray bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                 data-zipcode="${items["post code"]}" >
           Select
@@ -150,8 +127,8 @@ async function putTheSecondCardOntoThePage(zipcode) {
         `<div class="holder flex items-center justify-center">
       <div class="flex items-center justify-center h-screen w-screen">
         <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
-          <h3 class="text-3xl">SELECTED ZIPCODE: ${zipcode}</h3>
-          <h3 class="text-2xl">name of place: ${place["place name"]}</h3>
+          <h3>SELECTED ZIPCODE: ${zipcode}</h3>
+          <h3>name of place: ${place["place name"]}</h3>
           <ul>
             <li>sunrise time: ${data.results.sunrise}</li>
             <li>sunset time: ${data.results.sunset}</li>
@@ -176,6 +153,13 @@ async function putTheSecondCardOntoThePage(zipcode) {
   } catch (error) {
     console.error("create items error", error);
   }
+  const buttons = document.querySelectorAll(".go-back");
+  buttons.forEach((button) => {
+    //thing that happens when clicked
+    button.addEventListener("click", () => {
+      defaultSetup();
+    });
+  });
 }
 
 //not only adds button listeners but also adds adjacent body html.

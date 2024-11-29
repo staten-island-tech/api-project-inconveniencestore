@@ -8,40 +8,47 @@
   </head>
   <body>
 
-    <h1 class="flex items-center justify-center text-8xl p-10">RANDOM INFORMATION BASED ON IP ADDRESS (AMERICA ONLY)</h1>
+    <h1>RANDOM INFORMATION BASED ON IP ADDRESS (AMERICA ONLY)</h1>
     
     <!--input-->
     <div class="control-panel flex flex-col flex-wrap items-center justify-center text-center">
       <form action="">
         <div class="input">
-          <label for="zipcode" >zipcode: </label>
-          <input type="text" id="zipcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <label for="zipcode" class="text-lg">zipcode: </label>
+          <input type="text" id="zipcode" class="text-sm rounded-lg  p-2.5 border-gray-600 placeholder-gray-400 text-white dark:focus:ring-blue-500 focus:border-blue-500">
         </div>
         </form>
-        <button type="submit" class="submit bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Submit</button>
+        <button type="submit" class="submit">Submit</button>
     </div>
     
     
-      <div class="holder flex flex-wrap items-center justify-center">
-        <!-- <div class="flex items-center justify-center h-screen w-screen"> 
-          <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
-            <h2 class="text-3xl">SELECTED ZIPCODE: ${zipcode}</h2>
-            <h3>name of place: ${}</h3>
-            <ul>
-              <li>sunset time: </li>
-              <li>sunrise time: </li>
-              <li>state: </li>
-              <li>longitude & latitude: </li>
-            </ul>
-            <button type="submit" class="go-back bg-blue-300">go back</button>
-          </div>-->
+      <div class="holder flex flex-wrap items-center justify-center m-10">
+        <!-- <div class="selected-info">
+          <h3>SELECTED ZIPCODE: ${zipcode}</h3>
+          <h3>name of place: ${place["place name"]}</h3>
+          <ul>
+            <li>sunrise time: ${data.results.sunrise}</li>
+            <li>sunset time: ${data.results.sunset}</li>
+            <li>day length:  ${data.results.day_length}</li>
+            <li>solar noon:  ${data.results.solar_noon}</li>
+            <li>nautical twilight begins at: ${data.results.nautical_twilight_begin}</li>
+            <li>nautical twilight ends at: ${data.results.nautical_twilight_end}</li>
+            <li>civil twilight begins at: ${data.results.civil_twilight_begin}</li>
+            <li>civil twilight ends at: ${data.results.civil_twilight_end}</li>
+          </ul>
+          <ul>
+            <li>longitude & latitude: ${place.longitude}, ${place.latitude}</li>
+            <li>state: ${place.state}</li>
+          </ul>
+       
+        </div>-->
       </div> 
 
-      <!--<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-80 max-w-lg h-80 m-8">
-        <h2 class="text-3xl">Place Name: ${place["place name"]}</h1>
-        <h3 class="text-xl">State: ${place.state}</h3>
-        <h4 class="text-lg">Zip Code: ${items["post code"]}</h4>
-        <button class="hooray bg-blue-300" 
+      <!--<div class="card">
+        <h2>Place Name: ${place["place name"]}</h1>
+        <h3>State: ${place.state}</h3>
+        <h4 >Zip Code: ${items["post code"]}</h4>
+        <button class="hooray" 
                 data-zipcode="${items["post code"]}" >
           Select
         </button>
@@ -50,7 +57,7 @@
 
   <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERSTED IN THESE ZIPCODES</h2>
       <!-- demo zipcodes -->
-      <div class="wow-look-at-these flex items-center justify-center"> 
+      <div class="wow-look-at-these flex items-center justify-center m-10"> 
 
       </div>
 

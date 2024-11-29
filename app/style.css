@@ -1,55 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Lacquer&family=Whisper&display=swap");
 @import "/variable.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body, *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-size: 10px;
-    font-family: "Comic Sans MS", "Comic Sans", sans-serif;
+html,
+body,
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 10px;
+  font-family: "Comic Sans MS", "Comic Sans", sans-serif;
+}
+
+.card,
+.selected-info {
+  @apply flex flex-col justify-self-center text-black bg-blue-300 p-6 m-6 rounded-lg;
+  max-width: 33rem;
+  width: 30rem;
 }
 
 .holder {
-    display: flex;
-    align-items: center; 
-    justify-content: center;
+  @apply flex flex-wrap flex-row justify-center;
 }
-
-.card {
-    color:black;
-}
-
 
 li {
-    font-size: var(--h4);
+  font-size: var(--h4);
+}
+
+form {
+  @apply m-3;
+}
+
+button {
+  @apply bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 block w-40 p-2;
+  margin: 1rem auto;
 }
 
 h1 {
-    font-size: var(--h1);
-    display: flex;
-    align-items: center;
+  @apply: flex center items-center;
+  font-size: var(--h1);
+  font-family: "Caveat", cursive;
 }
 h2 {
-    font-size: var(--h2);
+  font-size: var(--h2);
 }
 h3 {
-    font-size: var(--h3);
+  font-size: var(--h3);
+  font-family: "Caveat", cursive;
 }
 h4 {
-    font-size: var(--h4);
+  font-size: var(--h4);
+  font-family: "Caveat", cursive;
 }
+
+h1,
+h2,
+h3,
+h4,
 h5 {
-    font-size: var(--h5);
+  text-align: center;
 }
 
-
-h1, h2, h3, h4, h5 {
-    text-align: center;
+li,
+h3 {
+  color: black;
 }
-
-li, h3{
-    color: black;
-}
-  

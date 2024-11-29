@@ -38,7 +38,7 @@ async function createItems() {
     attachButtonListeners(items);
   } catch (error) {
     console.error("create items error", error);
-    alert("so close! that isnt a real place <3");
+    alert("so close! that isnt a real place");
   }
 }
 
@@ -65,11 +65,11 @@ function createCards(selection, items) {
 
   element.insertAdjacentHTML(
     "beforeend",
-    `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-100 max-w-120 h-120 max-h-150 m-8">
+    `<div class="card">
         <h2>Place Name: ${place["place name"]}</h1>
         <h3>State: ${place.state}</h3>
         <h4 >Zip Code: ${items["post code"]}</h4>
-        <button class="hooray bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+        <button class="hooray" 
                 data-zipcode="${items["post code"]}" >
           Select
         </button>
@@ -92,9 +92,7 @@ async function putTheSecondCardOntoThePage(zipcode) {
       DOMSelectors.infoHolder.innerHTML = "";
       DOMSelectors.infoHolder.insertAdjacentHTML(
         "beforeend",
-        `<div class="holder flex items-center justify-center">
-      <div class="flex items-center justify-center h-screen w-screen">
-        <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
+        `<div class="selected-info">
           <h3>SELECTED ZIPCODE: ${zipcode}</h3>
           <h3>name of place: ${place["place name"]}</h3>
           <ul>
@@ -112,8 +110,7 @@ async function putTheSecondCardOntoThePage(zipcode) {
             <li>state: ${place.state}</li>
           </ul>
        
-        </div>
-      </div>`
+        </div>`
       );
     } catch {
       console.log("sunset sunrise error");

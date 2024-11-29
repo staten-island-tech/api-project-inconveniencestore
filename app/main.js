@@ -1,14 +1,6 @@
 import "./style.css";
 import { validZipcodes } from "./list.js";
 
-//ideas to make the button actually work
-//when button clicked, store with each card an array of zipcodes
-//number each button
-
-//how about onclick
-
-//when search bar clicked, then summon get data
-
 const DOMSelectors = {
   holder: document.querySelector(".holder"),
   wowLookAtThese: document.querySelector(".wow-look-at-these"),
@@ -30,9 +22,8 @@ async function createItems() {
   console.log("zipcode requested:", zipcode);
   try {
     const items = await getData(zipcode);
-    //const place = items.places[0];
 
-    createCards("holder", items); //probably return a value for one of these
+    createCards("holder", items);
     console.log("createcards ran");
     attachButtonListeners(items);
   } catch (error) {
@@ -59,34 +50,19 @@ async function getData(zipcode) {
 //ADD ONE FORRESET TO DEFAULT
 //go back button
 function defaultSetup() {
-  // Clear and rebuild the body HTML
   DOMSelectors.body.innerHTML = `
-    <div class="control-panel flex flex-col flex-wrap items-center justify-center text-center">
-      <form action="">
-        <div class="input">
-          <label for="zipcode">zipcode: </label>
-          <input type="text" id="zipcode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        </div>
-      </form>
-      <button type="submit" id="submit" class="submit bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Submit</button>
-    </div>
-
-    <div class="holder flex items-center justify-center"></div> 
-
-    <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERESTED IN THESE ZIPCODES</h2>
-    <div class="wow-look-at-these flex items-center justify-center"></div>
+    put this in later after css finish update
   `;
 
-  // Rebind DOMSelectors to the new elements
+  // domSelectors needs to be recalled bc it wiped out the links initially formed
   DOMSelectors.holder = document.querySelector(".holder");
   DOMSelectors.wowLookAtThese = document.querySelector(".wow-look-at-these");
   DOMSelectors.zipcode = document.querySelector("#zipcode");
-
-  // Reattach event listener to the submit button
   const newSubmitButton = document.querySelector("#submit");
+
+  //needs new listener
   newSubmitButton.addEventListener("click", createItems);
 
-  // Generate new random zip code cards
   checkTheseOut();
 }
 
@@ -98,11 +74,11 @@ function createCards(selection, items) {
 
   element.insertAdjacentHTML(
     "beforeend",
-    `<div class="card bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-100 max-w-120 h-120 max-h-150 m-8">
+    `<div class="card">
         <h2>Place Name: ${place["place name"]}</h1>
         <h3>State: ${place.state}</h3>
         <h4 >Zip Code: ${items["post code"]}</h4>
-        <button class="hooray bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+        <button class="hooray" 
                 data-zipcode="${items["post code"]}" >
           Select
         </button>
@@ -124,9 +100,7 @@ async function putTheSecondCardOntoThePage(zipcode) {
       console.log(data);
       DOMSelectors.body.insertAdjacentHTML(
         "beforeend",
-        `<div class="holder flex items-center justify-center">
-      <div class="flex items-center justify-center h-screen w-screen">
-        <div class="selected-info bg-red-500 flex flex-col items-center justify-around text-center p-12 rounded-lg w-90 max-w-none h-90 m-0">
+        `<div class="selected-info">
           <h3>SELECTED ZIPCODE: ${zipcode}</h3>
           <h3>name of place: ${place["place name"]}</h3>
           <ul>
@@ -143,9 +117,8 @@ async function putTheSecondCardOntoThePage(zipcode) {
             <li>longitude & latitude: ${place.longitude}, ${place.latitude}</li>
             <li>state: ${place.state}</li>
           </ul>
-          <button type="submit" class="go-back bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">go back</button>
-        </div>
-      </div>`
+          <button type="submit" class="go-back">go back</button>
+        </div>`
       );
     } catch {
       console.log("sunset sunrise error");
@@ -162,8 +135,6 @@ async function putTheSecondCardOntoThePage(zipcode) {
   });
 }
 
-//not only adds button listeners but also adds adjacent body html.
-//also the information is being correctly formatted.... but the insertadjacent html i think is only looking at the last thingie
 function attachButtonListeners(items) {
   const buttons = document.querySelectorAll(".hooray");
   const place = items.places[0];

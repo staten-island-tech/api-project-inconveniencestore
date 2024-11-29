@@ -65,8 +65,8 @@ function createCards(selection, items) {
 
   element.insertAdjacentHTML(
     "beforeend",
-    `<div class="card">
-        <h2>Place Name: ${place["place name"]}</h1>
+    `<div class="card flex text-center">
+        <h2>Name: ${place["place name"]}</h1>
         <h3>State: ${place.state}</h3>
         <h4 >Zip Code: ${items["post code"]}</h4>
         <button class="hooray" 
@@ -93,7 +93,7 @@ async function putTheSecondCardOntoThePage(zipcode) {
       DOMSelectors.infoHolder.insertAdjacentHTML(
         "beforeend",
         `<div class="selected-info">
-          <h3>SELECTED ZIPCODE: ${zipcode}</h3>
+          <h2>SELECTED ZIPCODE: ${zipcode}</h2>
           <h3>name of place: ${place["place name"]}</h3>
           <ul>
             <li>sunrise time: ${data.results.sunrise}</li>
@@ -120,8 +120,6 @@ async function putTheSecondCardOntoThePage(zipcode) {
   }
 }
 
-//not only adds button listeners but also adds adjacent body html.
-//also the information is being correctly formatted.... but the insertadjacent html i think is only looking at the last thingie
 function attachButtonListeners(items) {
   const buttons = document.querySelectorAll(".hooray");
   const place = items.places[0];

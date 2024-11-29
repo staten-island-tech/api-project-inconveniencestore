@@ -7,27 +7,21 @@ const DOMSelectors = {
   submit: document.querySelector(".submit"),
   placeholder: document.querySelector(".title"),
   zipcode: document.querySelector("#zipcode"),
-  body: document.body, //to clear body later
+  body: document.body,
 };
 
-//for submit zipcode,
+//listen for user inputted zipcode
 DOMSelectors.submit.addEventListener("click", createItems);
 
-//put place in a seperate function
-//for user input
 async function createItems() {
-  //DOMSelectors.holder.innerHTML = "";
-
   const zipcode = DOMSelectors.zipcode.value;
-  console.log("zipcode requested:", zipcode);
+  console.log("line 22: zipcode requested:", zipcode);
   try {
     const items = await getData(zipcode);
-
     createCards("holder", items);
-    console.log("createcards ran");
-    attachButtonListeners(items);
+    console.log("line 27: createcards ran");
   } catch (error) {
-    console.error("create items error", error);
+    console.error("line 30: create items error", error);
     alert("so close! that isnt a real place <3");
   }
 }
@@ -39,11 +33,11 @@ async function getData(zipcode) {
       throw new Error("getData error: ", response);
     } else {
       const data = await response.json();
-      console.log(data);
+      console.log("line 42: getData ran, response.json gotten", data);
       return data;
     }
   } catch (error) {
-    console.log("fetching data error: ", error);
+    console.log("line 46: fetching data error: ", error);
   }
 }
 
@@ -79,15 +73,16 @@ function defaultSetup() {
     <script type="module" src="/main.js"></script>
   `;
 
-  // domSelectors needs to be recalled bc it wiped out the links initially formed
+  // Rebind DOMSelectors to the new elements
   DOMSelectors.holder = document.querySelector(".holder");
   DOMSelectors.wowLookAtThese = document.querySelector(".wow-look-at-these");
   DOMSelectors.zipcode = document.querySelector("#zipcode");
-  const newSubmitButton = document.querySelector("#submit");
 
-  //needs new listener
+  // Reattach event listener to the submit button
+  const newSubmitButton = document.querySelector(".submit");
   newSubmitButton.addEventListener("click", createItems);
 
+  // Generate new random zip code cards
   checkTheseOut();
 }
 
@@ -122,7 +117,7 @@ async function putTheSecondCardOntoThePage(zipcode) {
         `https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400`
       );
       const data = await response.json();
-      console.log(data);
+      console.log("line 126: getData ran, response.json gotten", data);
       DOMSelectors.body.insertAdjacentHTML(
         "beforeend",
         `<div class="selected-info">
@@ -146,10 +141,10 @@ async function putTheSecondCardOntoThePage(zipcode) {
         </div>`
       );
     } catch {
-      console.log("sunset sunrise error");
+      console.log("line 150: sunset sunrise error");
     }
   } catch (error) {
-    console.error("create items error", error);
+    console.error("line 153: create items error", error);
   }
   const buttons = document.querySelectorAll(".go-back");
   buttons.forEach((button) => {
@@ -176,15 +171,23 @@ async function checkTheseOut() {
   for (let i = 0; i < 5; i++) {
     let randomNumber = Math.floor(Math.random() * 117);
     let randomPlace = validZipcodes[randomNumber];
-    console.log("trying zip code:", randomPlace);
+    console.log("line 180: trying zip code:", randomPlace);
 
     try {
       const items = await getData(randomPlace);
       //const place = items.places[0];
       createCards("wowLookAtThese", items);
-      attachButtonListeners(items);
+      const hooray = document.querySelectorAll(".hooray");
+      const zipcode = hooray.event.target.getAttribute("data-zipcode");
+      if (zipcode === items["post code"]) {
+        attachButtonListeners(items);
+      }
     } catch (error) {
-      console.error("Error creating demo card for zip:", randomPlace, error);
+      console.error(
+        "line 188: error creating demo card for zip:",
+        randomPlace,
+        error
+      );
     }
   }
 }

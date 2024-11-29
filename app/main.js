@@ -51,7 +51,32 @@ async function getData(zipcode) {
 //go back button
 function defaultSetup() {
   DOMSelectors.body.innerHTML = `
-    put this in later after css finish update
+    
+    <div class="w-3/4 flex "><h1 class="">RANDOM INFORMATION BASED ON IP ADDRESS (AMERICA ONLY)</h1></div>
+    
+    
+    <!--input-->
+    <div class="control-panel">
+      <form action="">
+        <div class="input">
+          <label for="zipcode" >zipcode: </label>
+          <input type="text" id="zipcode" class="">
+        </div>
+        </form>
+        <button type="submit" class="submit">Submit</button>
+    </div>
+    
+      <div class="holder">
+      </div> 
+  </div>
+
+  <h2 class="flex items-center justify-center">I THINK YOU MIGHT BE INTERSTED IN THESE ZIPCODES</h2>
+      <!-- demo zipcodes -->
+      <div class="wow-look-at-these flex items-center justify-center"> 
+
+      </div>
+    
+    <script type="module" src="/main.js"></script>
   `;
 
   // domSelectors needs to be recalled bc it wiped out the links initially formed

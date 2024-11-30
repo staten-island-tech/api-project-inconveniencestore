@@ -1,14 +1,6 @@
 import "./style.css";
 import { validZipcodes } from "./list.js";
 
-//ideas to make the button actually work
-//when button clicked, store with each card an array of zipcodes
-//number each button
-
-//how about onclick
-
-//when search bar clicked, then summon get data
-
 const DOMSelectors = {
   holder: document.querySelector(".holder"),
   wowLookAtThese: document.querySelector(".wow-look-at-these"),

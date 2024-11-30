@@ -36,7 +36,7 @@ async function createItems() {
 
 async function getData(zipcode) {
   try {
-    const response = await fetch(`http://api.zippopotam.us/us/${zipcode}`);
+    const response = await fetch(`https://api.zippopotam.us/us/${zipcode}`);
     if (response.status != 200) {
       throw new Error("getData error: ", response);
     } else {

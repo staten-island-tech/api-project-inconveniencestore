@@ -23,11 +23,13 @@ async function createItems() {
   console.log("zipcode requested:", zipcode);
   try {
     const items = await getData(zipcode);
-    //const place = items.places[0];
-
-    createCards("holder", items); //probably return a value for one of these
-    console.log("createcards ran");
-    attachButtonListeners(items);
+    if (response.status < 200 && response.status > 220) {
+      throw new Error("getData error: ", response);
+    } else {
+      createCards("holder", items); //probably return a value for one of these
+      console.log("createcards ran");
+      attachButtonListeners(items);
+    }
   } catch (error) {
     console.error("create items error", error);
     alert("so close! that isnt a real place");
@@ -37,7 +39,7 @@ async function createItems() {
 async function getData(zipcode) {
   try {
     const response = await fetch(`https://api.zippopotam.us/us/${zipcode}`);
-    if (response.status != 200) {
+    if (response.status < 200 && response.status > 220) {
       throw new Error("getData error: ", response);
     } else {
       const data = await response.json();
@@ -74,38 +76,45 @@ async function putTheSecondCardOntoThePage(zipcode) {
   try {
     const items = await getData(zipcode);
     const place = items.places[0];
-
-    try {
-      const response = await fetch(
-        `https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400`
-      );
-      const data = await response.json();
-      console.log(data);
-      DOMSelectors.infoHolder.innerHTML = "";
-      DOMSelectors.infoHolder.insertAdjacentHTML(
-        "beforeend",
-        `<div class="selected-info">
-          <h2>SELECTED ZIPCODE: ${zipcode}</h2>
-          <h3>name of place: ${place["place name"]}</h3>
-          <ul>
-            <li>sunrise time: ${data.results.sunrise}</li>
-            <li>sunset time: ${data.results.sunset}</li>
-            <li>day length:  ${data.results.day_length}</li>
-            <li>solar noon:  ${data.results.solar_noon}</li>
-            <li>nautical twilight begins at: ${data.results.nautical_twilight_begin}</li>
-            <li>nautical twilight ends at: ${data.results.nautical_twilight_end}</li>
-            <li>civil twilight begins at: ${data.results.civil_twilight_begin}</li>
-            <li>civil twilight ends at: ${data.results.civil_twilight_end}</li>
-          </ul>
-          <ul>
-            <li>longitude & latitude: ${place.longitude}, ${place.latitude}</li>
-            <li>state: ${place.state}</li>
-          </ul>
-       
-        </div>`
-      );
-    } catch {
-      console.log("sunset sunrise error");
+    if (items.status < 200 && items.status > 220) {
+      throw new Error("getData error: ", response);
+    } else {
+      try {
+        const response = await fetch(
+          `https://api.sunrise-sunset.org/json?lat=${place.latitude}&lng=${place.longitude}`
+        );
+        if (response.status < 200 && response.status > 220) {
+          throw new Error("getData error: ", response);
+        } else {
+          const data = await response.json();
+          console.log(data);
+          DOMSelectors.infoHolder.innerHTML = "";
+          DOMSelectors.infoHolder.insertAdjacentHTML(
+            "beforeend",
+            `<div class="selected-info">
+            <h2>SELECTED ZIPCODE: ${zipcode}</h2>
+            <h3>name of place: ${place["place name"]}</h3>
+            <ul>
+              <li>sunrise time: ${data.results.sunrise}</li>
+              <li>sunset time: ${data.results.sunset}</li>
+              <li>day length:  ${data.results.day_length}</li>
+              <li>solar noon:  ${data.results.solar_noon}</li>
+              <li>nautical twilight begins at: ${data.results.nautical_twilight_begin}</li>
+              <li>nautical twilight ends at: ${data.results.nautical_twilight_end}</li>
+              <li>civil twilight begins at: ${data.results.civil_twilight_begin}</li>
+              <li>civil twilight ends at: ${data.results.civil_twilight_end}</li>
+            </ul>
+            <ul>
+              <li>longitude & latitude: ${place.longitude}, ${place.latitude}</li>
+              <li>state: ${place.state}</li>
+            </ul>
+         
+          </div>`
+          );
+        }
+      } catch {
+        console.log("sunset sunrise error");
+      }
     }
   } catch (error) {
     console.error("create items error", error);
@@ -134,8 +143,11 @@ async function checkTheseOut() {
 
     try {
       const items = await getData(randomPlace);
-      //const place = items.places[0];
-      createCards("wowLookAtThese", items);
+      if (items.status < 200 && items.status > 220) {
+        throw new Error("getData error: ", response);
+      } else {
+        createCards("wowLookAtThese", items);
+      }
     } catch (error) {
       console.error("Error creating demo card for zip:", randomPlace, error);
     }

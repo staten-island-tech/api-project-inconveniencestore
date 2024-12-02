@@ -23,7 +23,7 @@ async function createItems() {
   console.log("zipcode requested:", zipcode);
   try {
     const items = await getData(zipcode);
-    if (response.status < 200 && response.status > 220) {
+    if (items.status < 200 && items.status > 220) {
       throw new Error("getData error: ", response);
     } else {
       createCards("holder", items); //probably return a value for one of these

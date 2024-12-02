@@ -21,6 +21,10 @@ body,
   width: 30rem;
 }
 
+.input {
+  @apply bg-gray-400;
+}
+
 .holder {
   @apply flex flex-wrap flex-row justify-center;
 }
